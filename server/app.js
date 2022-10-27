@@ -1,4 +1,4 @@
-//#region Requires
+// #region Requires
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
@@ -10,12 +10,12 @@ const expressHandleBars = require('express-handlebars');
 const helmet = require('helmet');
 
 const router = require('./router.js');
-//#endregion
+// #endregion
 
-//#region Get env configs
+// #region Get env configs
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/DomoMaker';
-//#endregion
+// #endregion
 
 mongoose.connect(dbURI, (err) => {
   if (err) {
@@ -24,7 +24,7 @@ mongoose.connect(dbURI, (err) => {
   }
 });
 
-//#region Express setup
+// #region Express setup
 const app = express();
 
 // Statically serve the hosted directory as the assets route and set the favicon
@@ -42,7 +42,7 @@ app.use(cookieParser());
 app.engine('handlebars', expressHandleBars.engine({ defaultLayout: '' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
-//#endregion
+// #endregion
 
 router(app);
 
