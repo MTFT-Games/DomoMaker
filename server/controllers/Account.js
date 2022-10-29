@@ -24,6 +24,7 @@ function signupPage(req, res) {
  * @param {Express.Request} res The server response.
  */
 function logout(req, res) {
+  req.session.destroy();
   return res.redirect('/');
 }
 
@@ -44,6 +45,8 @@ function login(req, res) {
     if (err || !account) {
       return res.status(401).json({ error: 'Wrong username or password!' });
     }
+
+    req.session.account = Account.toAPI(account);
 
     return res.json({ redirect: '/maker' });
   });
@@ -71,6 +74,7 @@ async function signup(req, res) {
     const hash = await Account.generateHash(pass);
     const newAccount = new Account({ username, password: hash });
     await newAccount.save();
+    req.session.account = Account.toAPI(newAccount);
     return res.json({ redirect: '/maker' });
   } catch (error) {
     console.error(error);

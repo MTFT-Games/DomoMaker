@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandleBars = require('express-handlebars');
 const helmet = require('helmet');
+const session = require('express-session');
 
 const router = require('./router.js');
 // #endregion
@@ -42,6 +43,14 @@ app.use(cookieParser());
 app.engine('handlebars', expressHandleBars.engine({ defaultLayout: '' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
+
+// Setup sessions
+app.use(session({
+  key: 'sessionid',
+  secret: 'Domo Arigato',
+  resave: true,
+  saveUninitialized: true,
+}));
 // #endregion
 
 router(app);
