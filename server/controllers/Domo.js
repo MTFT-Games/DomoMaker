@@ -1,11 +1,9 @@
-const models = require('../models');
-
-const { Domo } = models;
+const { Domo } = require('../models');
 
 /**
- * Renders the app page.
+ * Renders the app page with any owned domos.
  * @param {Express.Request} req The client request.
- * @param {Express.Request} res The server response.
+ * @param {Express.Response} res The server response.
  */
 function makerPage(req, res) {
   Domo.findByOwner(req.session.account._id, (err, docs) => {
@@ -14,10 +12,15 @@ function makerPage(req, res) {
       return res.status(400).json({ error: 'An error has occurred!' });
     }
 
-    return res.render('app', { domos: docs });
+    return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
   });
 }
 
+/**
+ * Creates and saves a new Domo.
+ * @param {Express.Request} req The client request.
+ * @param {Express.Response} res The server response.
+ */
 async function makeDomo(req, res) {
   if (!req.body.name || !req.body.age) {
     return res.status(400).json({ error: 'Both name and age are required!' });

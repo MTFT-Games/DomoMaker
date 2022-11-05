@@ -3,25 +3,25 @@ const { Account } = require('../models');
 /**
  * Renders the login page.
  * @param {Express.Request} req The client request.
- * @param {Express.Request} res The server response.
+ * @param {Express.Response} res The server response.
  */
 function loginPage(req, res) {
-  return res.render('login');
+  return res.render('login', { csrfToken: req.csrfToken()});
 }
 
 /**
  * Renders the signup page.
  * @param {Express.Request} req The client request.
- * @param {Express.Request} res The server response.
+ * @param {Express.Response} res The server response.
  */
 function signupPage(req, res) {
-  return res.render('signup');
+  return res.render('signup', { csrfToken: req.csrfToken()});
 }
 
 /**
  * Redirects to /
  * @param {Express.Request} req The client request.
- * @param {Express.Request} res The server response.
+ * @param {Express.Response} res The server response.
  */
 function logout(req, res) {
   req.session.destroy();
@@ -31,7 +31,7 @@ function logout(req, res) {
 /**
  *
  * @param {Express.Request} req The client request.
- * @param {Express.Request} res The server response.
+ * @param {Express.Response} res The server response.
  */
 function login(req, res) {
   const username = `${req.body.username}`;
@@ -55,7 +55,7 @@ function login(req, res) {
 /**
  * Saves a new account to the database.
  * @param {Express.Request} req The client request.
- * @param {Express.Request} res The server response.
+ * @param {Express.Response} res The server response.
  */
 async function signup(req, res) {
   const username = `${req.body.username}`;
